@@ -18,12 +18,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     def supportVersion = "27.0.1"
+    def butterKnifeVersion = "8.8.1"
     def picassoVersion = "2.5.2"
     def daggerVersion = "2.11"
     def mockitoVersion = "1.10.19"
@@ -36,6 +40,10 @@ dependencies {
     implementation "com.android.support:design:$supportVersion"
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Butterknife
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     // Picasso
     implementation "com.squareup.picasso:picasso:$picassoVersion"
@@ -52,4 +60,8 @@ dependencies {
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
