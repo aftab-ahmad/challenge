@@ -1,8 +1,9 @@
 package com.mobile.impraise
 
+import com.google.gson.Gson
 import com.mobile.impraise.Utils.argumentCaptor
 import com.mobile.impraise.Utils.capture
-import com.mobile.impraise.Utils.openFile
+import com.mobile.impraise.Utils.convertStreamToString
 import com.mobile.impraise.models.Feedback
 import org.junit.Assert
 import org.junit.Before
@@ -25,25 +26,20 @@ class MainPresenterImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = MainPresenterImpl(view, openFile("output.json", javaClass.classLoader))
     }
 
     @Test
     fun readData() {
+        val stream = convertStreamToString("output.json", javaClass.classLoader)
+        val feedback = Gson().fromJson(stream, Feedback::class.java)
+
+        presenter = MainPresenterImpl(view, feedback)
         presenter.attach()
 
         val captor = argumentCaptor<Feedback>()
         verify(view, times(1)).displayData(capture(captor))
 
         val users = captor.value.users
-        Assert.assertEquals(8, users.size)
-    }
-
-    @Test
-    fun readEmptyData() {
-        presenter = MainPresenterImpl(view, openFile("empty.json", javaClass.classLoader))
-        presenter.attach()
-
-        verify(view, times(1)).displayError()
+        Assert.assertEquals(8, users?.size)
     }
 }
