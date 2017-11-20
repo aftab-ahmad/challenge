@@ -1,5 +1,6 @@
 package com.mobile.impraise
 
+import android.text.format.DateUtils
 import android.util.Log
 import com.mobile.impraise.models.BaseContentModel
 import com.mobile.impraise.models.Feedback
@@ -11,7 +12,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-
 
 /**
  * Created by aftab on 2017-11-19.
@@ -43,11 +43,12 @@ class MainPresenterImpl
                     firstItem?.let {
                         calendar.time = dateFormat.parse(it.date)
                         val lastInteractionDate = DateTime(calendar.time)
+                        val date = DateUtils.getRelativeTimeSpanString(calendar.timeInMillis, DateTime().millis, 0L) as String
 
                         if (isMoreThanTwoWeeksBetweenDates(now, lastInteractionDate)) {
-                            gaveFeedbackList.add(FeedbackCardContentModel(user.name ?: "", user.avatar ?: "", it.date))
+                            gaveFeedbackList.add(FeedbackCardContentModel(user.name ?: "", user.avatar ?: "", date))
                         } else {
-                            giveFeedbackList.add(FeedbackCardContentModel(user.name ?: "", user.avatar ?: "", it.date))
+                            giveFeedbackList.add(FeedbackCardContentModel(user.name ?: "", user.avatar ?: "", date))
                         }
                     }
                 }

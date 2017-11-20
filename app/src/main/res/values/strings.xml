@@ -1,3 +1,5 @@
 <resources>
 	<string name="app_name">impraise</string>
+	<string name="last_feedback_date">Last feedback you sent: %s</string>
+	<string name="no_feedback_given">No feedback given</string>
 </resources>
