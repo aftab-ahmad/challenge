@@ -1,8 +1,12 @@
 package com.mobile.impraise
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.mobile.impraise.models.Feedback
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.mobile.impraise.models.BaseContentModel
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -17,9 +21,16 @@ class MainActivity : DaggerAppCompatActivity(), MainContract.View {
     @Inject
     lateinit var presenter: MainContract.Presenter
 
+    @BindView(R.id.recycler_view)
+    lateinit var recyclerView: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+        ButterKnife.bind(this)
+
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onResume() {
@@ -32,8 +43,8 @@ class MainActivity : DaggerAppCompatActivity(), MainContract.View {
         presenter.detach()
     }
 
-    override fun displayData(feedback: Feedback) {
-        Log.d(tag, "feedback data is: " + feedback)
+    override fun displayData(itemList: List<BaseContentModel>) {
+        recyclerView.adapter = ContentAdapter(itemList)
     }
 
     override fun displayError() {

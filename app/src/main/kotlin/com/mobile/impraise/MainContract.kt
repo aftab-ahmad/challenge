@@ -1,6 +1,6 @@
 package com.mobile.impraise
 
-import com.mobile.impraise.models.Feedback
+import com.mobile.impraise.models.BaseContentModel
 
 /**
  * Created by aftab on 2017-11-19.
@@ -8,7 +8,7 @@ import com.mobile.impraise.models.Feedback
 interface MainContract {
 
     interface View {
-        fun displayData(feedback: Feedback)
+        fun displayData(itemList: List<BaseContentModel>)
         fun displayError()
     }
 
